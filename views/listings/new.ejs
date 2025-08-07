@@ -1,0 +1,178 @@
+<% layout('/layouts/boilerplate') %>
+<h3>Create New Listing</h3>
+
+<div class="row">
+
+  <div class="col-8">
+    <form
+      id="listingForm"
+      method="POST"
+      action="/listings"
+      novalidate
+      class="needs-validation"
+      enctype="multipart/form-data"
+    >
+      <div class="mb-1">
+        <label for="title" class="form-label">Title</label>
+        <input
+          name="listing[title]"
+          placeholder="Enter Title"
+          class="form-control"
+          required
+        />
+      </div>
+
+      <div class="mb-1">
+        <label for="description" class="form-label">Description</label>
+        <textarea
+          name="listing[description]"
+          placeholder="Enter Description"
+          required
+          class="form-control"
+        ></textarea>
+      </div>
+
+      <div class="mb-1">
+        <label for="image" class="form-label">Upload Image</label>
+        <input
+          id="imageInput"
+          name="listing[image][url]"
+          type="file"
+          class="form-control"
+          required
+        />
+      </div>
+
+      <input type="hidden" name="listing[image][url]" id="cloudinaryUrl">
+
+      <div class="row">
+        <div class="mb-1 col-md-4">
+          <label for="price" class="form-label">Price</label>
+
+          <input
+            name="listing[price]"
+            placeholder="Enter your price "
+            class="form-control"
+            required
+          />
+          <div class="valid-feedback">price must be greater than 2000.</div>
+        </div>
+        <div class="mb-1 col-md-4">
+          <label for="location" class="form-label">Location</label>
+          <input
+            name="listing[location]"
+            type="text"
+            placeholder="Enter your location "
+            class="form-control"
+          />
+        </div>
+
+        <div class="mb-1 col-md-4">
+          <label for="country" class="form-label">Country</label>
+
+          <input
+            name="listing[country]"
+            type="text"
+            placeholder="Enter your country "
+            class="form-control"
+            required
+          />
+
+          <div class="invalid-feedback">Please provide a valid country.</div>
+        </div>
+      </div>
+
+      <button class="btn btn-warning mt-4" type="submit">Add to database</button>
+    </form>
+
+    <!-- Progress bar -->
+    <!-- <div class="progress mt-3" style="height: 20px; display:none;" id="uploadProgressBar"> -->
+      <div class="progress-bar" role="progressbar" style="width: 0%;" id="progressBarInner">0%</div>
+    </div>
+  </div>
+</div>
+
+<!-- <script>
+document.getElementById('listingForm').addEventListener('submit', function(e) {
+  e.preventDefault();
+
+  const form = e.target;
+  const formData = new FormData(form);
+
+  const xhr = new XMLHttpRequest();
+  const progressBar = document.getElementById('uploadProgressBar');
+  const progressBarInner = document.getElementById('progressBarInner');
+  progressBar.style.display = 'block';
+
+  xhr.upload.onprogress = function(event) {
+    if (event.lengthComputable) {
+      let percent = Math.round((event.loaded / event.total) * 100);
+      // Ensure at least 20% is shown while uploading
+      if (percent < 20) percent = 20;
+      progressBarInner.style.width = percent + '%';
+      progressBarInner.textContent = percent + '%';
+    }
+  };
+
+  xhr.onload = function() {
+    if (xhr.status === 200) {
+      
+      progressBarInner.style.width = '100%';
+      progressBarInner.textContent = 'Upload Complete!';
+      
+
+      window.location.href = '/listings';
+    } else {
+      progressBarInner.style.width = '100%';
+      progressBarInner.textContent = 'File Loaded!';
+    }
+  };
+
+  xhr.open('POST', form.action, true);
+  xhr.send(formData);
+});
+
+document.getElementById('imageInput').addEventListener('change', async function(e) {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    // Show progress bar
+    const progressBar = document.getElementById('uploadProgressBar');
+    const progressBarInner = document.getElementById('progressBarInner');
+    progressBar.style.display = 'block';
+    progressBarInner.style.width = '20%';
+    progressBarInner.textContent = 'Uploading...';
+
+    // Prepare form data for Cloudinary unsigned upload
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('upload_preset', 'YOUR_UNSIGNED_UPLOAD_PRESET'); // <-- set this in your Cloudinary dashboard
+
+    // Upload to Cloudinary
+    const xhr = new XMLHttpRequest();
+    xhr.open('POST', 'https://api.cloudinary.com/v1_1/YOUR_CLOUD_NAME/image/upload', true);
+
+    xhr.upload.onprogress = function(event) {
+        if (event.lengthComputable) {
+            let percent = Math.round((event.loaded / event.total) * 100);
+            if (percent < 20) percent = 20;
+            progressBarInner.style.width = percent + '%';
+            progressBarInner.textContent = percent + '%';
+        }
+    };
+
+    xhr.onload = function() {
+        if (xhr.status === 200) {
+            const response = JSON.parse(xhr.responseText);
+            document.getElementById('cloudinaryUrl').value = response.secure_url;
+            progressBarInner.style.width = '100%';
+            progressBarInner.textContent = 'Uploaded!';
+        } else {
+            progressBarInner.style.width = '100%';
+            progressBarInner.textContent = 'Loaded !';
+        }
+    };
+
+    xhr.send(formData);
+});
+</script> -->

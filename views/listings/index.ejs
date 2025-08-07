@@ -1,0 +1,119 @@
+<% layout("/layouts/boilerplate") %>
+
+<body>
+  <style>
+    .filter-bar {
+      display: flex;
+      align-items: center; /* This vertically aligns children */
+      gap: 10px;
+      margin-bottom: 1rem;
+    }
+    #filters {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 0;
+      margin-left: 10px;
+      overflow: hidden;
+    }
+    #filters.show {
+      display: flex;
+    }
+    .filter {
+      text-align: center;
+      margin-right: 10px;
+      margin-top: 1rem; /* Add this line for top margin */
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.4s, transform 0.4s;
+      pointer-events: none;
+    }
+    #filters.show .filter {
+      pointer-events: auto;
+    }
+    .filter.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  </style>
+
+  <div class="container">
+    <div class="filter-bar">
+      <button id="filterToggle" class="btn btn-outline-secondary" type="button">
+        <i class="fa fa-bars"></i>
+      </button>
+      <div id="filters">
+        <div class="filter ">
+          <div> <i class="fa-solid fa-fire-flame-curved"></i></div>
+          <p> Trending</p>
+        </div>
+        <div class="filter">
+          <div> <i class="fa-solid fa-house"></i></div>
+          <p> Rooms</p>
+        </div>
+        <div class="filter">
+          <div> <i class="fa-solid fa-mountain-city"></i></div>
+          <p> City</p>
+        </div>
+        <div class="filter">
+          <div> <i class="fa-brands fa-fort-awesome"></i></div>
+          <p> Castles</p>
+        </div>
+        <div class="filter">
+          <div> <i class="fa-solid fa-crown"></i></div>
+          <p> crown</p>
+        </div>
+        <div class="filter">
+          <div> <i class="fa-solid fa-person-swimming"></i></div>
+          <p> Swimming</p>
+        </div>
+        <div class="filter">
+          <div> <i class="fa-solid fa-money-bill-wheat"></i></div>
+          <p> farm</p>
+        </div>
+      </div>
+    </div>
+
+    <form action="/listings/new" method="GET">
+      <!-- <button class="mb-1">Create New Listings</button> -->
+    </form>
+
+    <div class="row row-cols-lg-5 row-cols-md-2 mt-2">
+      <% for(let listing of alllsitings) { %>
+      <a href="/listings/<%= listing._id %>">
+        <div class="card col">
+          <img
+            class="card-img-top"
+            src="<%= listing.image.url %>"
+            alt="Card image cap"
+            style="height: 20rem"
+          />
+          <div class="card-body">
+            <p class="card-text">
+              <b> <%= listing.title %> <br /> </b>
+              $<%= listing.price %>/night <br />
+            </p>
+          </div>
+        </div>
+      </a>
+      <% } %>
+    </div>
+  </div>
+  <script>
+    document.getElementById('filterToggle').addEventListener('click', function() {
+      const filters = document.getElementById('filters');
+      const icons = filters.querySelectorAll('.filter');
+      filters.classList.toggle('show');
+      if (filters.classList.contains('show')) {
+        icons.forEach((icon, i) => {
+          setTimeout(() => {
+            icon.classList.add('visible');
+          }, i * 120); // 120ms delay between each icon
+        });
+      } else {
+        icons.forEach((icon) => icon.classList.remove('visible'));
+      }
+    });
+  </script>
+</body>

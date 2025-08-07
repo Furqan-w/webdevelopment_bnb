@@ -1,0 +1,55 @@
+<style>
+  .btnr {
+    color: aliceblue;
+    border-radius: 25px;
+
+    
+  }
+  .btnr i{
+    display:inline;
+    margin-right: 4px;
+  }
+  .searchinp {
+    border-radius: 25px;
+  } 
+</style>
+
+<nav class="navbar navbar-expand-lg bg-body-light border bottom sticky-top">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="/listings"><i class="fa-solid fa-compass"></i></a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+      <div class="navbar-nav">
+        <a class="nav-link active" href="/listings">Explore</a>
+        <!-- <a class="nav-link" href="/listings">All Listing</a> -->
+      </div>
+      <div class="navbar-nav ms-auto">
+         <form class="d-flex position-relative" role="search" method="GET" action="/listings/search" autocomplete="off">
+  <input class="form-control me-2 searchinp" id="searchInput" type="search" name="q" placeholder="Search Destinations" aria-label="Search" autocomplete="off">
+  <button class="btn btnr btn-warning my-2 my-sm-0" type="submit">
+    <i class="fa-solid fa-magnifying-glass"></i>Search
+  </button>
+  <div id="suggestions" class="list-group position-absolute w-100" style="z-index: 1000; top:100%;"></div>
+</form>
+      </div>
+      <div class="navbar-nav ms-auto">
+        <a class="nav-link " href="/listings/new">Airbnb your home</a>
+
+        <% if(currentUser) { %>
+          <span class="navbar-text me-2">
+            <i class="fa-solid fa-user"></i> <%= currentUser.username %>
+          </span>
+          <a class="nav-link" href="/logout">Logout</a>
+        <% } else { %>
+          <a class="nav-link" href="/signup">Sign Up</a>
+          <a class="nav-link" href="/login">Login</a>
+        <% } %>
+      </div>
+    </div>
+  </div>
+</nav>
+<script src="/css/js/search.js"></script>
+
+
